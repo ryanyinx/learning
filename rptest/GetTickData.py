@@ -14,14 +14,14 @@ stockIDList = []
 def getStockList(type):
     global headers
     # http://vip.newapi.wmcloud-stg.com/api/equity/getEqu.json?equTypeCD=A&listStatusCD=L,S
-    response = requests.get('http://vip.newapi.wmcloud-stg.com/api/equity/getEqu.json?equTypeCD=A&listStatusCD=L,S')
+    response = requests.get('http://vip.newapi.wmcloud-stg.com/api/equity/getEqu.json?equTypeCD=%s&listStatusCD=S' % type)
     responseContent = response.content
     jsonpathExpression = parse('$.data[*].ticker')
     for match in jsonpathExpression.find(json.loads(responseContent)):
         stockIDList.append(match.value)
 
 def getTickData(stockId, hour, minute, endTime):
-    # while True:
+    while True:
         print stockId
         # 当前时间比期望监测时间晚，则从下一天开始监测
         plusDay = 0

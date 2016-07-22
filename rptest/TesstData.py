@@ -20,6 +20,10 @@ def getStockList(type):
     for match in jsonpathExpression.find(json.loads(responseContent)):
         stockIDList.append(match.value)
 
+now = datetime.now()
+time = datetime.time(1455508609)
+print time.strftime('%Y-%m-%d %H:%M:%S')
+
 env = 'stg'
 tokenStg = 'e2d925633a85724ecab32d0e2bd70f09126899e5bc55438c5585354eb45404bd'
 tokenPrd = ''
@@ -30,6 +34,7 @@ if env == 'prd':
                'Authorization': 'Bearer '+tokenPrd}
 getStockList('A')
 for stockID in stockIDList:
+    print stockID
     response = requests.get('https://gw.wmcloud-stg.com/rrpqa/web/holderShareChg?ticker=%s&pageNow=2&pageSize=10' % stockID, headers=headers)
     jsonPathExpression = parse('$.data.list[*].seniorName')
     # print stockID
